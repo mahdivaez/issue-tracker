@@ -1,6 +1,6 @@
 "use client";
 import { Button, Callout, TextField } from '@radix-ui/themes';
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import "easymde/dist/easymde.min.css";
 import dynamic from 'next/dynamic';
 import { useForm, Controller } from "react-hook-form";
@@ -9,9 +9,9 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/validationSchema';
 import {TypeOf, z} from "zod"
-import ErrorMessage from '@/app/components/errorMessage';
+import ErrorMessage from '@/app/components/ErrorMessage';
+import Spinner from '@/app/components/Spinner';
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
-
 
 type IssueForm = z.infer<typeof createIssueSchema> 
 // interface IssueForm {
@@ -25,6 +25,8 @@ const NewIssuePage = () => {
         resolver : zodResolver(createIssueSchema)
     });
     const [error, setError] = useState("");
+const [isSubmitting , setSubmitting] = useState(false)
+
 
     return (
         <div>
@@ -43,6 +45,7 @@ const NewIssuePage = () => {
                 className='max-w-xl space-y-10'
                 onSubmit={handleSubmit(async (data) => {
                     try {
+                        setSubmitting(true)
                         const response = await axios.post("/api/issues", data);
 
                         if (response.status === 400) {
@@ -53,6 +56,7 @@ const NewIssuePage = () => {
                             router.push("/issues");
                         }
                     } catch (error) {
+                        setSubmitting(false)
                         setError("Something went wrong");
                     }
                 })}
@@ -76,8 +80,9 @@ const NewIssuePage = () => {
                 {<ErrorMessage>{errors.description?.message}</ErrorMessage>}
 
 
-                <Button className='w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition'>
+                <Button disabled={isSubmitting} className='w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition'>
                     Submit New Issue
+                    {isSubmitting && <Spinner/>}
                 </Button>
             </form>
         </div>

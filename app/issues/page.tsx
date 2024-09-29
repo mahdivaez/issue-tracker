@@ -7,54 +7,52 @@ const IssuePage = async () => {
     const issues = await prisma.issue.findMany();
 
     return (
-        <div className="max-w-7xl mx-auto p-5">
+        <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
             {/* Button Section */}
-            <div className='mb-6'>
-                <Link href={"/issues/new"}>
-                    <Button 
-                        variant="surface"
-                        className="bg-red-500 text-white rounded-lg py-2 px-4 transition duration-300 ease-in-out hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
-                    >
-                        New Issue
+            <div className="flex justify-center mb-8">
+                <Link href="/issues/new">
+                    <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full py-3 px-8 shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-400">
+                        + Create New Issue
                     </Button>
+
                 </Link>
             </div>
 
             {/* Table Section */}
-            <div className="overflow-x-auto">
-                <Table.Root className="min-w-full bg-surface shadow-md rounded-lg overflow-hidden">
-                    <Table.Header>
-                        <Table.Row className="bg-gray-200 text-gray-800"> {/* Adjusted for better contrast */}
-                            <Table.ColumnHeaderCell className="py-3 px-4 text-left w-1/2">
-                                Issue
+            <div className="bg-white shadow overflow-hidden rounded-lg">
+                <Table.Root className="min-w-full table-auto">
+                    <Table.Header className="bg-gray-100 ">
+                        <Table.Row>
+                            <Table.ColumnHeaderCell className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/2">
+                                Issue Title
                             </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell className="hidden md:table-cell py-3 px-4 text-left w-1/4">
+                            <Table.ColumnHeaderCell className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/2">
                                 Status
                             </Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell className="hidden md:table-cell py-3 px-4 text-left w-1/4">
-                                Created
+                            <Table.ColumnHeaderCell className="px-2 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+                                Date Created
                             </Table.ColumnHeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    <Table.Body>
+
+                    <Table.Body className="bg-white divide-y divide-gray-200">
                         {issues.length === 0 ? (
                             <Table.Row>
-                                <Table.Cell colSpan={3} className="text-center py-4 text-gray-600">
+                                <Table.Cell colSpan={3} className="text-center py-6 text-gray-600">
                                     No issues found.
                                 </Table.Cell>
                             </Table.Row>
                         ) : (
-                            issues.map(issue => (
-                                <Table.Row key={issue.id} className="hover:bg-gray-100 transition duration-200">
-                                    <Table.Cell className="py-3 px-4 border-b text-gray-800">
+                            issues.map((issue) => (
+                                <Table.Row key={issue.id} className="hover:bg-gray-50 transition ease-in-out duration-150">
+                                    <Table.Cell className="px-6 py-4 text-sm font-medium text-gray-900 w-1/3">
                                         {issue.title}
-                                        <div className="block  md:hidden ">{issue.status}</div>
                                     </Table.Cell>
-                                    <Table.Cell  className="hidden md:table-cell py-3 px-4 border-b text-gray-800">
-                                        {issue.status || "Pending"} {/* Default value for status */}
+                                    <Table.Cell className="px-6 py-4 text-sm text-gray-600 w-1/3">
+                                        {issue.status || "Pending"}
                                     </Table.Cell>
-                                    <Table.Cell className="hidden md:table-cell py-3 px-4 border-b text-gray-800">
-                                        {issue.createdAt.toDateString()}
+                                    <Table.Cell className="px-6 py-4 text-sm text-gray-600 w-1/3">
+                                        {new Date(issue.createdAt).toLocaleDateString()}
                                     </Table.Cell>
                                 </Table.Row>
                             ))
@@ -63,7 +61,7 @@ const IssuePage = async () => {
                 </Table.Root>
             </div>
         </div>
-    )
+    );
 }
 
 export default IssuePage;

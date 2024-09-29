@@ -1,12 +1,6 @@
 import { json } from 'stream/consumers'
-import { z } from 'zod'
 import prisma from '@/prisma/client'
-const createIssueSchema = z.object({
-
-    title: z.string().min(1 , "Title is required").max(255),
-    description: z.string().min(1 , "Description is required").max(255)
-})
-
+import { createIssueSchema } from '../../validationSchema'
 export async function POST(request: Request) {
 
     const body = await request.json()

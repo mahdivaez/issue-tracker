@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/validationSchema';
 import {TypeOf, z} from "zod"
+import ErrorMessage from '@/app/components/errorMessage';
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 
 
@@ -58,7 +59,7 @@ const NewIssuePage = () => {
             >
                 <TextField.Root className='border p-2 rounded-xl text-black' placeholder="Title" {...register("title")}>
                 </TextField.Root>
-                {errors.title && <span className="text-red-600">{errors.title.message}</span>}
+                {<ErrorMessage>{errors.title?.message}</ErrorMessage>}
 
                 <Controller
                     name="description"
@@ -72,7 +73,7 @@ const NewIssuePage = () => {
                         
                     )}
                 />
-                {errors.title && <span className="text-red-600">{errors.title.message}</span>}
+                {<ErrorMessage>{errors.description?.message}</ErrorMessage>}
 
 
                 <Button className='w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition'>

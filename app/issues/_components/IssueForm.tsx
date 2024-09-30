@@ -7,14 +7,14 @@ import { useForm, Controller } from "react-hook-form";
  import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createIssueSchema } from '@/app/validationSchema';
+import { issueSchema } from '@/app/validationSchema';
 import { TypeOf, z } from "zod"
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
 import delay from 'delay';
 import { Issue } from '@prisma/client';
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
-type IssueFormData = z.infer<typeof createIssueSchema>
+type IssueFormData = z.infer<typeof issueSchema>
 interface IssueForm {
     title: string;
     description: string;
@@ -28,13 +28,18 @@ const IssueForm = ({issue} : Props) => {
     delay(2000)
     const router = useRouter();
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
-        resolver: zodResolver(createIssueSchema)
+        resolver: zodResolver(issueSchema)
     });
     const [error, setError] = useState("");
     const [isSubmitting, setSubmitting] = useState(false)
     const onSubmit = handleSubmit(async (data) => {
         try {
             setSubmitting(true)
+            if (issue) {
+                const response = await axios.patch(`/api/issues/${issue.id}`, data);
+            }
+            else {
+                const response = await axios.post("/api/issues", data);}
             const response = await axios.post("/api/issues", data);
 
             if (response.status === 400) {
@@ -89,7 +94,7 @@ const IssueForm = ({issue} : Props) => {
 
 
                 <Button disabled={isSubmitting} className='w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition'>
-                    Submit New Issue
+                    {issue ? "Update Issue" :  "Submit New Issue"}{""}
                     {isSubmitting && <Spinner />}
                 </Button>
             </form>

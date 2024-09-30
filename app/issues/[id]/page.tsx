@@ -1,27 +1,42 @@
-import prisma from '@/prisma/client'
-import { notFound } from 'next/navigation'
-import React from 'react'
-
-
+import IssueStatusBadge from '@/app/components/IssueStatusBadge';
+import prisma from '@/prisma/client';
+import { Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { notFound } from 'next/navigation';
+import React from 'react';
 
 interface Props {
-    params : {id : string}
+  params: { id: string };
 }
-const IssueDetailsPage = async({params} : Props) => {
-    if (typeof params.id !== 'number') notFound( )
-    const issue =await prisma.issue.findUnique({
-        where : {id : parseInt(params.id)}
-    })
-    if(!issue) notFound();
+
+const IssueDetailsPage = async ({ params }: Props) => {
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!issue) notFound();
+
   return (
-    <div><p>
-            {issue.title}
-            {issue.description}
-            {issue.status}
-            {issue.createdAt.toDateString()}
+    <div className="bg-gray-50 dark:bg-gray-900 p-8 min-h-screen">
+      {/* Heading with Tailwind color */}
+      <Heading className="text-4xl text-red-400 font-bold">
+        {issue.title}
+      </Heading>
 
-        </p></div>
-  )
-}
+      <Flex className="mt-4 space-x-4 items-center">
+        {/* Badge and date information */}
+        <IssueStatusBadge status={issue.status} />
+        <Text className="text-gray-600 dark:text-gray-400">
+          {new Date(issue.createdAt).toLocaleDateString()}
+        </Text>
+      </Flex>
 
-export default IssueDetailsPage
+      <Card className="mt-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+        <Text className="text-gray-700 dark:text-gray-300">
+          {issue.description}
+        </Text>
+      </Card>
+    </div>
+  );
+};
+
+export default IssueDetailsPage;

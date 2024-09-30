@@ -1,8 +1,5 @@
-import IssueStatusBadge from '@/app/components/IssueStatusBadge'
+import { Skeleton } from "@/app/components"
 import { Box, Card, Flex, Heading } from '@radix-ui/themes'
-import React from 'react'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css' 
 const LoadingIssueDetailsPage = () => {
   return (
     <Box className='max-w-xl'>

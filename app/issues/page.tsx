@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Table } from "@radix-ui/themes";
-import Link from 'next/link';
+import { Button, Table} from "@radix-ui/themes";
 import prisma from '@/prisma/client';
 import IssueStatusBadge from '../components/IssueStatusBadge';
 import delay from 'delay'
 import IssueActions from './IssueActions';
+import Link from '../components/Link';
 const IssuePage = async () => {
     const issues = await prisma.issue.findMany();
     await delay(2000)
@@ -14,8 +14,8 @@ const IssuePage = async () => {
     return (
         <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
             {/* Button Section */}
-        
-            <IssueActions/>
+
+            <IssueActions />
             {/* Table Section */}
             <div className="shadow rounded-lg">
                 <Table.Root className="min-w-full table-auto">
@@ -44,15 +44,19 @@ const IssuePage = async () => {
                             issues.map((issue) => (
                                 <Table.Row key={issue.id} className="hover:bg-gray-50 transition ease-in-out duration-150">
                                     <Table.Cell className="px-6 py-4 text-sm font-medium text-gray-900 w-1/3">
-                                        <Link href={`/issues/${issue.id}`}>
-                                        {issue.title}
-                                        </Link>
+                                    <Link href={`/issues/${issue.id}`}>
+  <a className="text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent hover:from-purple-600 hover:to-pink-600 dark:from-purple-400 dark:to-pink-400 dark:hover:from-purple-500 dark:hover:to-pink-500 transition-colors duration-300 ease-in-out">
+    {issue.title}
+  </a>
+</Link>
+
+
                                         <div className='block md:hidden'>
-                                            <IssueStatusBadge status={issue.status}/>
+                                            <IssueStatusBadge status={issue.status} />
                                         </div>
                                     </Table.Cell>
                                     <Table.Cell className="px-6 py-4 text-sm  text-gray-600 w-1/3">
-                                        <IssueStatusBadge status={issue.status}/>
+                                        <IssueStatusBadge status={issue.status} />
                                     </Table.Cell>
                                     <Table.Cell className="px-6 py-4 text-sm text-gray-600 w-1/3">
                                         {new Date(issue.createdAt).toLocaleDateString()}

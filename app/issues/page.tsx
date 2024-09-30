@@ -44,12 +44,14 @@ const IssuePage = async () => {
                             issues.map((issue) => (
                                 <Table.Row key={issue.id} className="hover:bg-gray-50 transition ease-in-out duration-150">
                                     <Table.Cell className="px-6 py-4 text-sm font-medium text-gray-900 w-1/3">
+                                        <Link href={`/issues/${issue.id}`}>
                                         {issue.title}
+                                        </Link>
                                         <div className='block md:hidden'>
                                             <IssueStatusBadge status={issue.status}/>
                                         </div>
                                     </Table.Cell>
-                                    <Table.Cell className="px-6 py-4 text-sm text-gray-600 w-1/3">
+                                    <Table.Cell className="px-6 py-4 text-sm  text-gray-600 w-1/3">
                                         <IssueStatusBadge status={issue.status}/>
                                     </Table.Cell>
                                     <Table.Cell className="px-6 py-4 text-sm text-gray-600 w-1/3">

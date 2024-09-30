@@ -11,6 +11,7 @@ import { createIssueSchema } from '@/app/validationSchema';
 import { TypeOf, z } from "zod"
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
+import delay from 'delay';
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 
 type IssueForm = z.infer<typeof createIssueSchema>
@@ -20,6 +21,7 @@ type IssueForm = z.infer<typeof createIssueSchema>
 // }
 
 const NewIssuePage = () => {
+    delay(2000)
     const router = useRouter();
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)

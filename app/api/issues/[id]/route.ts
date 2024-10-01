@@ -37,3 +37,28 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
   }
 }
+
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  try {
+    // Find the issue by its ID
+    const issue = await prisma.issue.findUnique({
+      where: { id: parseInt(params.id) },
+    });
+
+    // If issue doesn't exist, return an error
+    if (!issue) {
+      return new Response(JSON.stringify({ error: "Invalid issue" }), { status: 404 });
+    }
+
+    // Delete the issue
+    await prisma.issue.delete({
+      where: { id: issue.id },
+    });
+
+    // Return a success response
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+  } catch (err) {
+    // Handle any unexpected errors
+    return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });
+  }
+}

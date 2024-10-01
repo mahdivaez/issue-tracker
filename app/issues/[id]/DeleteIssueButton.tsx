@@ -1,6 +1,8 @@
+"use client"
 import React from 'react';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import { TrashIcon } from '@radix-ui/react-icons';
+import axios from 'axios';
 
 interface Props {
   issueId: number;
@@ -32,7 +34,9 @@ const AlertDialogDemo = ({ issueId }: Props) => (
             </button>
           </AlertDialog.Cancel>
           <AlertDialog.Action asChild>
-            <button className="text-white bg-red-600 hover:bg-red-700 focus:outline-none inline-flex h-10 items-center justify-center rounded-md px-4 py-2 font-semibold transition-all duration-300">
+            <button onClick={async () => {await axios.delete(`/api/issues/${issueId}`)
+            window.location.href = '/issues'
+        }} className="text-white bg-red-600 hover:bg-red-700 focus:outline-none inline-flex h-10 items-center justify-center rounded-md px-4 py-2 font-semibold transition-all duration-300">
               Confirm
             </button>
           </AlertDialog.Action>

@@ -1,11 +1,10 @@
 import prisma from '@/prisma/client';
 import { Table } from "@radix-ui/themes";
-import { IssueStatusBadge , Link } from '../components';
-import IssueActions from './IssueActions'; 
+import { IssueStatusBadge, Link } from '../components';
+import IssueActions from './IssueActions';
 const IssuePage = async () => {
     const issues = await prisma.issue.findMany();
 
-    console.log(issues); // Check what issues are fetched
 
     return (
         <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -40,11 +39,11 @@ const IssuePage = async () => {
                             issues.map((issue) => (
                                 <Table.Row key={issue.id} className="hover:bg-gray-50 transition ease-in-out duration-150">
                                     <Table.Cell className="px-6 py-4 text-sm font-medium text-gray-900 w-1/3">
-                                    <Link href={`/issues/${issue.id}`}>
-  <a className="text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent hover:from-purple-600 hover:to-pink-600 dark:from-purple-400 dark:to-pink-400 dark:hover:from-purple-500 dark:hover:to-pink-500 transition-colors duration-300 ease-in-out">
-    {issue.title}
-  </a>
-</Link>
+                                        <Link href={`/issues/${issue.id}`}>
+                                            <a className="text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent hover:from-purple-600 hover:to-pink-600 dark:from-purple-400 dark:to-pink-400 dark:hover:from-purple-500 dark:hover:to-pink-500 transition-colors duration-300 ease-in-out">
+                                                {issue.title}
+                                            </a>
+                                        </Link>
 
 
                                         <div className='block md:hidden'>

@@ -6,7 +6,7 @@ const EditButtonIssue = ({issueId} : {issueId :Number}) => {
   return (
     <Link href={`/issues/${issueId}/edit`}>
    <Button
-    className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 via-teal-400 to-purple-400 
+    className="flex h-15 w-100 items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 via-teal-400 to-purple-400 
       hover:from-blue-600 hover:via-teal-500 hover:to-purple-500 text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md 
       hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
   >
